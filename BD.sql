@@ -9,3 +9,6 @@ create table LOGIN
     SENHA varchar(50)
 );
 
+insert into LOGIN (USUARIO,SENHA) values ('ADMIN','1234567');
+select * from LOGIN;
+select * from LOGIN where USUARIO = 'ADMIN' and SENHA = '1234567';
