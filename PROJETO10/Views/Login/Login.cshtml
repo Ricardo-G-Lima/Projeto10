@@ -7,10 +7,10 @@
 <h2>Login</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>modelLogin</h4>
         <hr />
@@ -40,7 +40,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Cadastrar", "Index")
 </div>
 
 @section Scripts {
