@@ -1,10 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using PROJETO10.Ações;
+﻿using PROJETO10.Ações;
 using PROJETO10.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PROJETO10.Controllers
@@ -16,8 +11,24 @@ namespace PROJETO10.Controllers
 
         public ActionResult Login() 
         {
-            ac.usuarios();
             return View();
+        }
+        public ActionResult TestarUsuario(modelLogin user)
+        {
+            ac.TestarUsuario(user);
+
+            if(user.USUARIO != null && user.SENHA != null)
+            {
+                Session["USUARIO"] = user.USUARIO.ToString();
+                Session["SENHA"] = user.SENHA.ToString();
+                return RedirectToAction("Index","Home");
+
+            }
+            else
+            {
+                return RedirectToAction("Login","Login");
+            }
+            
         }
     }
 }
