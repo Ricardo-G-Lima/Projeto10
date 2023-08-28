@@ -6,47 +6,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace PROJETO10.Ações
 {
     public class AcLogin
     {
         conexao con = new conexao();
-        /* public void usuarios(modelLogin modelLogin)
+         public modelLogin TestarUsuario(modelLogin user)
          {
-             MySqlCommand cmd = new MySqlCommand("insert into LOGIN(USUARIO,SENHA) values (@USUARIO,@SENHA)",
+             MySqlCommand cmd = new MySqlCommand("select * from LOGIN where USUARIO = @USUARIO and SENHA = @SENHA",
                  con.MyConnectarBD());
 
-             cmd.Parameters.Add("@USUARIO", MySqlDbType.VarChar).Value = modelLogin.USUARIO;
-             cmd.Parameters.Add("@SENHA", MySqlDbType.VarChar).Value = modelLogin.SENHA;
+             cmd.Parameters.Add("@USUARIO", MySqlDbType.VarChar).Value = user.USUARIO;
+             cmd.Parameters.Add("@SENHA", MySqlDbType.VarChar).Value = user.SENHA;
 
-             cmd.ExecuteNonQuery();
-             con.MyDesconectarBD();
-             }
-         }*/
+            MySqlDataReader leitor;
 
-        public void usuarios()
-        {
-            modelLogin mod = new modelLogin();
+            leitor = cmd.ExecuteReader();
 
-            List<SelectListItem> usuarios = new List<SelectListItem>();
+            if(leitor.HasRows)
             {
+                while(leitor.Read())
+                {
+                    modelLogin login = new modelLogin();
+                    {
+                        login.USUARIO = Convert.ToString(leitor["USUARIO"]);
+                        login.SENHA = Convert.ToString(leitor["SENHA"]);
 
-                MySqlCommand cmd = new MySqlCommand("select * from LOGIN where USUARIO = '@USUARIO' and SENHA = '@SENHA'", con.MyConnectarBD());
-                MySqlDataReader rdr = cmd.ExecuteReader();
+                    }
 
-                rdr.Read();
+                }
 
-                mod.USUARIO = rdr["USUARIO"].ToString();
-                mod.SENHA = rdr["SENHA"].ToString();
-
-                rdr.Close();
-                con.MyDesconectarBD();
-
+            }
+            else
+            {
+                user.USUARIO = null;
+                user.SENHA = null;
             }
 
 
-        }
+            con.MyDesconectarBD();
+            return user;
+             }
+         
 
     }
 
